@@ -651,40 +651,47 @@ const ViewPage = () => {
     load();
   }, []);
 // 🔹 Xuất Excel
-  const exportToExcel = () => {
-    // Sheet 1: Danh sách đơn thư
-    const exportData = data.map((row) => ({
-      "Tiêu đề": row.title,
-      "Người gửi": row.senderName,
-      "SĐT": row.senderPhone,
-      "Nguồn nhận": row.nguonNhan,
-      "Phân loại": row.phanLoaiDon,
-      "Ngày ban hành": row.ngayBanHanh ? new Date(row.ngayBanHanh).toLocaleDateString("vi-VN") : "",
-      "Đơn vị xử lý": row.assignedUnit?.join(", ") || "",
-      "Kết quả": row.ketQuaXuLy || "",
-      "Trạng thái": row.status || "",
-    }));
-    const ws1 = XLSX.utils.json_to_sheet(exportData);
-type UnitStats = Record<string, { total: number; pending: number }>;
 
-const stats: { unitStats: UnitStats }= { unitStats: {} };
-    // Sheet 2: Thống kê theo cơ quan
-    const unitData = Object.entries(stats.unitStats).map(([u, counts]) => ({
-      "Đơn vị": u,
-      "Tổng số đơn": counts.total,
-      "Chưa hoàn thành": counts.pending,
-    }));
-    const ws2 = XLSX.utils.json_to_sheet(unitData);
+const exportToExcel = () => {
+  const exportData = data.map((row) => ({
+    "Tiêu đề": row.title,
+    "Người gửi": row.senderName,
+    "SĐT": row.senderPhone,
+    "Nguồn nhận": row.nguonNhan,
+    "Phân loại": row.phanLoaiDon,
+    "Ngày ban hành": row.ngayBanHanh ? new Date(row.ngayBanHanh).toLocaleDateString("vi-VN") : "",
+    "Đơn vị xử lý": row.assignedUnit?.join(", ") || "",
+    "Kết quả": row.ketQuaXuLy || "",
+    "Trạng thái": row.status || "",
+  }));
 
-    // Workbook
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws1, "DanhSachDonThu");
-    XLSX.utils.book_append_sheet(wb, ws2, "ThongKeDonVi");
+  const ws1 = XLSX.utils.json_to_sheet(exportData);
+const unitData = Object.entries(stats.unitStats as Record<string, { total: number; pending: number }>).map(
+  ([u, counts]) => ({
+    "Đơn vị": u,
+    "Tổng số đơn": counts.total,
+    "Chưa hoàn thành": counts.pending,
+  })
+);
 
-    const buf = XLSX.write(wb, { type: "array", bookType: "xlsx" });
-    const file = new Blob([buf], { type: "application/octet-stream" });
-    saveAs(file, "DanhSachDonThu.xlsx");
-  };
+  // Sheet 2: Thống kê theo cơ quan từ state.stats
+  // const unitData = Object.entries(stats.unitStats).map(([u, counts]) => ({
+  //   "Đơn vị": u,
+  //   "Tổng số đơn": counts.total,
+  //   "Chưa hoàn thành": counts.pending,
+  // }));
+
+  const ws2 = XLSX.utils.json_to_sheet(unitData);
+
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws1, "DanhSachDonThu");
+  XLSX.utils.book_append_sheet(wb, ws2, "ThongKeDonVi");
+
+  const buf = XLSX.write(wb, { type: "array", bookType: "xlsx" });
+  const file = new Blob([buf], { type: "application/octet-stream" });
+  saveAs(file, "DanhSachDonThu.xlsx");
+};
+
 const exportToWord = () => {
  
   const tableRows = [];
