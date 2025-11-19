@@ -1,7 +1,9 @@
 "use client";
 
-import { Form, Input, Button, Select } from "antd";
+import { Form, Input, Button, Select, DatePicker } from "antd";
 import { API_URL } from "@/lib/api";
+
+import { NGUON_NHAN_OPTIONS, PHAN_LOAI_DON_OPTIONS } from "../../constants/donthu";
 
 export default function CreatePage() {
   const [form] = Form.useForm();
@@ -43,8 +45,46 @@ const units = [
               {u}
             </Select.Option>
           ))}
-        </Select>
-              </Form.Item>
+          </Select>
+            </Form.Item>
+              
+            
+           {/* 🔥 Dropdown nguồn nhận */}
+        <Form.Item
+          name="nguonNhan"
+          label="Nguồn nhận"
+          rules={[{ required: true, message: "Vui lòng chọn nguồn nhận" }]}
+        >
+          <Select
+            options={NGUON_NHAN_OPTIONS}
+            placeholder="Chọn nguồn nhận"
+            allowClear
+          />
+        </Form.Item>
+
+        {/* 🔥 Dropdown phân loại đơn */}
+        <Form.Item
+          name="phanLoaiDon"
+          label="Phân loại đơn"
+          rules={[{ required: true, message: "Vui lòng chọn phân loại đơn" }]}
+        >
+          <Select
+            options={PHAN_LOAI_DON_OPTIONS}
+            placeholder="Chọn loại"
+            allowClear
+          />
+        </Form.Item>
+
+        {/* Ngày ban hành */}
+        <Form.Item name="ngayBanHanh" label="Ngày ban hành">
+          <DatePicker format="DD/MM/YYYY" className="w-full" />
+        </Form.Item>
+      
+            
+        {/* <-- Ô KẾT QUẢ GIẢI QUYẾT (mới) --> */}
+        <Form.Item name="ketQuaXuLy" label="Kết quả giải quyết">
+          <Input.TextArea rows={4} placeholder="Ghi kết quả xử lý (nếu có)" />
+        </Form.Item>
         <Button type="primary" htmlType="submit">
           Tạo đơn
         </Button>
