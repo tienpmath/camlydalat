@@ -1,19 +1,4 @@
-export const NGUON_NHAN_OPTIONS = [
-  { label: 'Trực tiếp', value: 'trực tiếp' },
-  { label: 'Bưu điện', value: 'bưu điện' },
-  { label: 'Tỉnh ủy', value: 'Tỉnh ủy' },
-  { label: 'Ban Nội chính', value: 'Ban Nội chính' },
-];
-
-export const PHAN_LOAI_DON_OPTIONS = [
-  { label: 'Kiến nghị', value: 'kiến nghị' },
-  { label: 'Phản ánh', value: 'phản ánh' },
-  { label: 'Khiếu nại', value: 'khiếu nại' },
-  { label: 'Tố cáo', value: 'tố cáo' },
-];
-
-
-export const DSBITHU=[
+[
   {
     "group": "BÍ THƯ CHI BỘ PHƯỜNG 5 (CŨ)",
     "items": [
@@ -85,43 +70,4 @@ export const DSBITHU=[
       { "name": "Nguyễn Song Hồ", "role": "Bí thư Chi bộ Trường THCS & THPT Tà Nung", "phone": "0967877597" }
     ]
   }
-];
-
-export const DS_CANBO=[
-  {
-    "group": "CÁN BỘ LÃNH ĐẠO PHƯỜNG CAM LY - ĐÀ LẠT",
-    "items": [
-      { "name": "Phạm Kim Quang", "role": "Bí thư Đảng uỷ", "phone": "0919066559" },
-      { "name": "Hồ Tôn Thông", "role": "Phó Bí thư Đảng uỷ", "phone": "0917552245" },
-      { "name": "Nguyễn Thị Liên Hương", "role": "Trưởng Ban xây dựng Đảng", "phone": "0919179172" },
-      { "name": "Nguyễn Quang Huy", "role": "P. Trưởng Ban xây dựng Đảng", "phone": "0947231851" },
-      { "name": "Trần Anh Tuấn", "role": "Chủ nhiệm UBKT", "phone": "0983701222" },
-      { "name": "Nguyễn Thị Bích Thuỷ", "role": "P. Chủ nhiệm UBMT", "phone": "0919796793" },
-      { "name": "Nguyễn Văn Tín", "role": "Uỷ viên UBKT", "phone": "0919851326" },
-      { "name": "Lê Thị Hồng Phúc", "role": "Chánh Văn phòng Đảng uỷ", "phone": "0935120779" },
-      { "name": "Trương Ngọc Anh", "role": "P. Chánh Văn phòng Đảng uỷ", "phone": "0942756739" },
-      { "name": "Trần Ngọc Minh", "role": "Chủ tịch Uỷ ban MTTQ Việt Nam", "phone": "0947005854" },
-      { "name": "Nguyễn Thị Phương Anh", "role": "P. Chủ tịch Uỷ ban MTTQ Việt Nam phụ trách Hội Nông dân", "phone": "0988525363" },
-      { "name": "Nguyễn Thị Phương Thuỳ", "role": "P. Chủ tịch Uỷ ban MTTQ Việt Nam phụ trách Phụ nữ", "phone": "0989012778" },
-      { "name": "Hồ Thị Minh Hạnh", "role": "P. Chủ tịch Uỷ ban MTTQ Việt Nam phụ trách thanh niên", "phone": "0359598581" },
-      { "name": "Nguyễn Văn Tuyết", "role": "P. Chủ tịch Uỷ ban MTTQ Việt Nam phụ trách cựu chiến binh", "phone": "0982022592" },
-      { "name": "Liêng Hót Hồng Thắm", "role": "P. Chủ tịch Uỷ ban MTTQ Việt Nam phụ trách công đoàn", "phone": "0974642806" },
-      { "name": "Nguyễn Thừa Đoàn", "role": "Chủ tịch UBND phường", "phone": "0916496868" },
-      { "name": "Nguyễn Đức Cường", "role": "Phó Chủ tịch HĐND", "phone": "0888285858" },
-      { "name": "Nguyễn Văn Triêm", "role": "P. Chủ tịch phụ trách Kinh tế", "phone": "0919001045" },
-      { "name": "Chế Công Đức", "role": "P. Chủ tịch phụ trách Văn xã", "phone": "0919979649" },
-      { "name": "Nguyễn Nam Thắng", "role": "Trưởng P. Kinh tế hạ tầng đô thị", "phone": "0918224685" },
-      { "name": "Lê Trương Tường Vy", "role": "P. Trưởng P. Kinh tế hạ tầng đô thị", "phone": "0917192248" },
-      { "name": "Nguyễn Nhật Huy", "role": "Trưởng Phòng Văn hoá - xã hội", "phone": "0909880021" },
-      { "name": "Phùng Xuân Đông", "role": "P. Trưởng Phòng Văn hoá - xã hội", "phone": "0977818151" },
-      { "name": "Lê Văn Nguyên Vũ", "role": "P. Giám đốc trung tâm hành chính công", "phone": "0913720007" },
-      { "name": "Nguyễn Thành Luân", "role": "Chánh Văn phòng HĐND, UBND", "phone": "0985660709" },
-      { "name": "Phan Ngọc Toàn", "role": "P. Chánh Văn phòng HĐND, UBND", "phone": "0918437357" },
-      { "name": "Lê Thị Ngọc Anh", "role": "Phó Ban Văn hoá- xã hội -HĐND", "phone": "0986227032" },
-      { "name": "Nguyễn Châu Cường", "role": "Phó Ban Kinh tế ngân sách -HĐND", "phone": "0985708565" },
-      { "name": "Hoàng Thị Vân Anh", "role": "Hiệu trưởng Trường THCS Lam Sơn", "phone": "0912827962" },
-      { "name": "Đậu Xuân Đức", "role": "Hiệu trưởng Trường Tiểu học Tà Nung", "phone": "0919778992" },
-      { "name": "Nguyễn Thị Kim Yến", "role": "Hiệu trưởng Trường Mầm Non 6", "phone": "0912931858" }
-    ]
-  }
-];
+]
