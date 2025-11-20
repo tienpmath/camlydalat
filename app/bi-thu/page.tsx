@@ -6,43 +6,57 @@ import { SearchOutlined, PhoneOutlined } from "@ant-design/icons";
 import { DSBITHU } from "../constants/donthu";
 import { exportToExcel } from "../utils/exportExcel";
 
-// Hàm highlight từ khóa
+// Hàm bỏ dấu tiếng Việt
+const removeVietnameseTones = (str: string) => {
+  return str
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/đ/g, "d")
+    .replace(/Đ/g, "D");
+};
+
+// Highlight theo keyword không dấu
 const highlightText = (text: string, keyword: string) => {
   if (!keyword) return text;
-  const regex = new RegExp(`(${keyword})`, "gi");
-  const parts = text.split(regex);
+
+  const textNoTone = removeVietnameseTones(text.toLowerCase());
+  const keywordNoTone = removeVietnameseTones(keyword.toLowerCase());
+
+  const start = textNoTone.indexOf(keywordNoTone);
+  if (start === -1) return text;
+
+  const end = start + keywordNoTone.length;
+
   return (
     <>
-      {parts.map((part, idx) =>
-        regex.test(part) ? (
-          <span key={idx} style={{ backgroundColor: "yellow" }}>
-            {part}
-          </span>
-        ) : (
-          part
-        )
-      )}
+      {text.substring(0, start)}
+      <span style={{ backgroundColor: "yellow", fontWeight: "bold" }}>
+        {text.substring(start, end)}
+      </span>
+      {text.substring(end)}
     </>
   );
 };
 
-export default function DanhSachPage() {
+export default function DanhSach2Page() {
   const [keyword, setKeyword] = useState("");
 
-  // Lọc nhóm theo từ khóa
+  // Lọc theo keyword (không dấu)
+  const keywordNoTone = removeVietnameseTones(keyword.toLowerCase());
+
   const filteredGroups = DSBITHU.map((group) => ({
     ...group,
-    items: group.items.filter((item) =>
-      [item.name, item.role, item.phone].join(" ").toLowerCase().includes(keyword.toLowerCase())
-    ),
+    items: group.items.filter((item) => {
+      const text = [item.name, item.role, item.phone].join(" ");
+      return removeVietnameseTones(text.toLowerCase()).includes(keywordNoTone);
+    }),
   }));
 
-  // Danh sách tổng hợp tất cả items phù hợp
+  // Kết quả tìm kiếm toàn bảng
   const searchResults = filteredGroups.flatMap((group) =>
     group.items.map((item) => ({ ...item, group: group.group }))
   );
 
-  // Cột bảng
   const columns = [
     {
       title: "STT",
@@ -54,7 +68,11 @@ export default function DanhSachPage() {
       title: "Họ và tên",
       dataIndex: "name",
       key: "name",
-      render: (text: string) => <>Đồng chí: <b>{highlightText(text, keyword)}</b></>,
+      render: (text: string) => (
+        <>
+          Đồng chí: <b>{highlightText(text, keyword)}</b>
+        </>
+      ),
     },
     {
       title: "Chức vụ / Vai trò",
@@ -86,15 +104,18 @@ export default function DanhSachPage() {
   return (
     <div style={{ maxWidth: 1000, margin: "0 auto", padding: 20 }}>
       <h1 style={{ marginBottom: 20, fontSize: 26, fontWeight: 700 }}>
-        Danh sách liên hệ
+        Danh sách liên hệ (Không dấu)
       </h1>
-  <Button
+
+      {/* Button xuất Excel */}
+      <Button
         type="primary"
         style={{ marginBottom: 20 }}
         onClick={() => exportToExcel(DSBITHU, "Danh_sach_Can_bo")}
       >
         Xuất Excel
       </Button>
+
       {/* Input tìm kiếm */}
       <Input
         size="large"
@@ -105,16 +126,19 @@ export default function DanhSachPage() {
         allowClear
       />
 
+      {/* Nếu có keyword → hiển thị bảng kết quả */}
       {keyword ? (
-        // Hiển thị kết quả tìm kiếm tổng hợp
         <Table
           columns={columns}
-          dataSource={searchResults.map((item, index) => ({ ...item, key: index }))}
+          dataSource={searchResults.map((item, index) => ({
+            ...item,
+            key: index,
+          }))}
           pagination={false}
           bordered
         />
       ) : (
-        // Hiển thị Accordion nhóm bình thường
+        /* Không có keyword → hiển thị Collapse */
         <Collapse accordion>
           {filteredGroups.map((group, idx) => (
             <Collapse.Panel
@@ -122,8 +146,11 @@ export default function DanhSachPage() {
               header={`${group.group} (${group.items.length})`}
             >
               <Table
-                columns={columns.filter(col => col.key !== "group")} // Không hiển thị cột nhóm trong Accordion
-                dataSource={group.items.map((item, index) => ({ ...item, key: index }))}
+                columns={columns.filter((c) => c.key !== "group")}
+                dataSource={group.items.map((item, index) => ({
+                  ...item,
+                  key: index,
+                }))}
                 pagination={false}
                 bordered
               />
